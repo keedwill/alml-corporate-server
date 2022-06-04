@@ -1,0 +1,201 @@
+<div class="container mt-5 mb-3">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-8">
+
+            {{#each proforma}}
+
+
+            <div class="card" id="card">
+                <div class="d-flex flex-row p-2"> <img src="/images/websitebrand.png"
+                        style="width: 100%; max-width: 100px" />
+
+                    <div class="d-flex flex-column"> <span class="font-weight-bold">Service Proforma</span>
+                      INV- <small id="proforma_id">{{this.dataValues.id}}</small> </div>
+                </div>
+                <hr>
+                {{!-- <div class="table-responsive p-2"> --}}
+                    <div class="proforma">
+                        <div class="box">
+                            <h6> <b>To</b> </h6>
+                           Name: <p id="clientName">   {{ capitalizeFirst this.dataValues.User.dataValues.name}}</p>
+                           Email:  <p id="clientEmail">  {{ this.dataValues.User.dataValues.email}}</p>
+                          Address:   <p>  {{this.dataValues.User.dataValues.address}}</p>
+                           Phone:  <p id="phonenumber">  {{this.dataValues.User.dataValues.phone}}</p>
+                        </div>
+                        <div class="box">
+                            <h6> <b>From</b> </h6>
+                           Name: <p>ALMLGROUP</p>
+                           Email:  <p>info@almlgroup.com</p>
+                           Address:  <p>63 Adekunle
+                                    Fajuyi GRA, Ikeja Lagos</p>
+                              Phone:      <p>09084999191</p>
+                                    
+                        </div>
+                        <div class="box">
+                            <h6> <b>Booking Email</b> </h6>
+                            <p id="bookingEmail">{{this.dataValues.bookingEmail}}</p>
+                        </div>
+                    </div>
+                {{!-- </div> --}}
+                <hr>
+                <div class="products p-2">
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr class="add">
+                                <td>Service Name</td>
+                                <td>Service Description</td>
+                                <td>(₦) Service Fee</td>
+                                <td>(₦) Agreed Fee</td>
+                            </tr>
+                            {{#each this.dataValues.Services }}
+
+                            <tr class="content">
+                                <th scope="row">{{this.dataValues.name}}</th>
+                                <td>{{this.dataValues.description}}</td>
+                                <td>{{this.dataValues.fee}}</td>
+                                <td class="text-center"> {{this.dataValues.Proforma_Service.dataValues.agreedFee}}</td>
+                            </tr>
+                            {{/each}}
+                            {{!-- <tr class="content">
+                                <td>Website Redesign</td>
+                                <td>15</td>
+                                <td>$1,500</td>
+                                <td class="text-center">$22,500</td>
+                            </tr> --}}
+
+                        </tbody>
+                    </table>
+                </div>
+                <hr>
+                <div class="products p-2">
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr class="add">
+                                <td></td>
+                                <td>Subtotal</td>
+                                <td>GST(10%)</td>
+                                <td class="text-center">(₦) Total </td>
+                            </tr>
+                            <tr class="content">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td id="totalAmount" class="text-center"> {{this.dataValues.totalAmount}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <hr>
+                {{!-- <div class="address p-2">
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr class="add">
+                                <td>Bank Details</td>
+                            </tr>
+                            <tr class="content">
+                                <td> Bank Name : ADS BANK <br> Swift Code : ADS1234Q <br> Account Holder : Jelly Pepper <br> Account Number : 5454542WQR <br> </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div> --}}
+            </div>
+            {{/each}}
+            <button class="btn btn-warning" onclick="makePayment()">Pay By Flutterwave</button>
+            <button class="btn btn-success" onclick="generatePDF()"> Download Proforma</button>
+            <button class="btn btn-primary" onclick="window.print()">Print </button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+
+
+
+
+    var opt = {
+
+        filename: 'invoice.pdf',
+
+    };
+    function generatePDF() {
+
+        // Choose the element that our invoice is rendered in.
+        const element = document.getElementById("card");
+        // Choose the element and save the PDF for our user.
+        html2pdf(element).set(opt).save()
+
+    }
+
+
+
+    function makePayment() {
+
+        const totalAmount = document.getElementById('totalAmount').innerText
+        const bookingEmail = document.getElementById('bookingEmail').innerText 
+        const clientEmail = document.getElementById('clientEmail').innerText 
+        const phonenumber = document.getElementById('phonenumber').innerText 
+        const clientName =  document.getElementById('clientName').innerText 
+        const proforma_id = document.getElementById('proforma_id').innerText
+     
+        FlutterwaveCheckout({
+            public_key: "FLWPUBK-5559f6b006199fb609603d7f7b99b846-X",
+            tx_ref: "almlproforma",
+            amount: totalAmount,
+            currency: "NGN",
+            country: "NG",
+            payment_options: "card, mobilemoneyghana, ussd",
+            redirect_url: // specified redirect URL
+                "",
+            meta: {
+               proforma_id :proforma_id
+
+            },
+            customer: {
+                email: clientEmail,
+                phone_number: phonenumber,
+                name: clientName,
+                description: ""
+            },
+            callback: function (data) {
+                console.log(data);
+            },
+            onclose: function () {
+                // close modal
+            },
+            customizations: {
+                title: '',
+                description: "",
+                logo: "",
+            },
+        });
+
+
+
+    }
+</script>

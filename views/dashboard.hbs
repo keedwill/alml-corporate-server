@@ -1,0 +1,290 @@
+<div class="col-7">
+   {{> messages}} 
+  <div class="services">
+    <div id="square" style="background-color: #C1FFC1;">
+      <!-- <p><i class="fas fa-car"></i></p> -->
+      <img src="/svg/car.svg" width="30%" alt="">
+      <p style="font-weight: bolder;">Transport</p>
+    </div>
+    <div id="square" style="background-color: #FFD580;">
+      <img src="/svg/lounge icon.svg" width="30%" alt="">
+      <!-- <p><i class="fas fa-coffee"></i></p> -->
+      <p style="font-weight: bolder;">Lounge</p>
+    </div>
+
+    <div id="square" style="background-color:#FFC1FF;">
+      <img src="/svg/protocol.svg" width="30%" alt="">
+      <!-- <p><i class="fas fa-users"></i></p> -->
+      <p style="font-weight: bolder;">Protocol</p>
+    </div>
+    <div id="square" style="background-color: #FFE5B4;">
+      <img src="/svg/others.svg" class="mb-2" width="30%" alt="">
+      <!-- <p><i class="fas fa-ellipsis-h"></i></p> -->
+      <p style="font-weight: bolder;">Others</p>
+    </div>
+    <div id="square">
+      <img src="/svg/add to cart.svg" width="20%" alt="">
+    </div>
+
+
+
+  </div>
+  <div class="mt-4">
+    <h2>Generate Proforma</h2>
+  </div>
+</div>
+<div class="col">
+  column3
+</div>
+
+
+<script>
+
+  const cartBtn = document.querySelector('.cart-btn')
+  const closeCartBtn = document.querySelector('.close-cart')
+  const clearCartBtn = document.querySelector('.clear-cart')
+  const cartDom = document.querySelector('.cart')
+  const cartOverlay = document.querySelector('.cart-overlay')
+  const cartContent = document.querySelector('.cart-content')
+  const cartItems = document.querySelector('.cart-items')
+  const cartTotal = document.querySelector('.cart-total')
+
+
+  let cart = []
+
+
+  class Services {
+    async  getServices() {
+      try {
+
+        let services = await fetch('http://localhost:3000/api/dashboard/contract')
+        // let services = await fetch('https://almlproforma.herokuapp.com/api/dashboard/contract')
+        let data = await services.json()
+
+        //console.log(data)
+        return data[0].Services
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }
+
+  class Storage {
+    static saveServices(services) {
+      localStorage.setItem('services', JSON.stringify(services))
+    }
+
+    static getProduct(id) {
+      let services = JSON.parse(localStorage.getItem('services'))
+      return services.find(service => service.ServiceId === id)
+    }
+
+    static saveCart(cart) {
+      localStorage.setItem('cart', JSON.stringify(cart))
+    }
+
+    static getCart() {
+      return localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : []
+    }
+  }
+
+  const add = () => {
+    // let obj1 = new Object()
+    const serviceId = document.getElementById('service').value
+    //console.log(serviceId)
+    // const agreed_rate = document.getElementById('agreed_rate').value
+    let inCart = cart.find((item) => item.ServiceId === serviceId);
+    if (inCart) {
+      alert('This Service is Already in Cart')
+    } else {
+      let cartItem = Storage.getProduct(serviceId)
+
+      cart = [...cart, cartItem]
+      Storage.saveCart(cart)
+      setCartValues(cart)
+      addCartItem(cartItem)
+      showCart()
+    }
+    // obj1['serviceId'] = serviceId
+    //  obj1['agreed_rate'] = agreed_rate
+    // contract_services.push(obj1)
+    //  contract['contract_services'] = contract_services
+    // contract_services.push(obj1)
+
+    //contract.push(obj1)
+    //console.log(contract)
+
+  }
+
+  document.getElementById('addService').addEventListener('submit', addService)
+
+  let service = {}
+  function addService(e) {
+    e.preventDefault()
+    const services = Storage.getCart()
+    const bookingEmail = document.getElementById('email').value
+
+    service['proforma_services'] = services
+    service['bookingEmail'] = bookingEmail
+
+    fetch('https://almlproforma.herokuapp.com/dashboard/proforma/create', {
+      method: 'POST',
+
+      headers: {
+        'Accept': " application/json, text/plain, */* ",
+        'Content-type': 'application/json'
+      },
+
+      body: JSON.stringify(service)
+
+    }).then(res => {
+      // console.log(res)
+      if (res.status === 500) {
+
+        window.location.href = res.url
+        alert('Server Error Could not Create')
+        cart = []
+        Storage.saveCart(cart)
+        setCartValues(cart)
+      } else if (res.status === 200) {
+        window.location.href = res.url
+        alert('Proforma Created')
+        cart = []
+        Storage.saveCart(cart)
+        setCartValues(cart)
+      }
+    })
+  }
+
+  function setCartValues(cart) {
+    let tempTotal = 0
+    cart.map(services => {
+
+      tempTotal += parseInt(services.agreedFee)
+    })
+
+
+    cartTotal.innerText = tempTotal
+    cartItems.innerText = cart.length
+
+  }
+
+
+  function addCartItem(service) {
+    const div = document.createElement('div')
+    div.classList.add('cart-item')
+    div.innerHTML = `
+         <div>
+                        <h5>Service</h5>
+                        <h6>Service Fee</h6>
+                        <h6>Agreed Fee</h6>
+                        <p></p>
+                    </div>
+
+                    <div>
+                        <h5>${service.name}</h5>
+                        <h6>₦ ${service.fee}</h6>
+                        <h6>₦ ${service.agreedFee}</h6>
+                        <span class="remove-item" data-id=${service.ServiceId}>remove</span>
+                    </div>
+        
+        `
+    cartContent.appendChild(div)
+
+  }
+
+  function showCart() {
+    cartOverlay.classList.add('transparentBcg')
+    cartDom.classList.add('showCart')
+  }
+
+  function setUpApp() {
+    cart = Storage.getCart()
+    setCartValues(cart)
+    populateCart(cart)
+    cartBtn.addEventListener('click', () => {
+      showCart()
+    })
+    closeCartBtn.addEventListener('click', () => {
+      hideCart()
+    })
+  }
+
+  function populateCart(cart) {
+    cart.forEach(service => addCartItem(service))
+  }
+  function hideCart() {
+    cartOverlay.classList.remove('transparentBcg');
+    cartDom.classList.remove('showCart');
+  }
+
+  function cartLogic() {
+    clearCartBtn.addEventListener('click', () => {
+      clearCart()
+    })
+
+    cartContent.addEventListener('click', (event) => {
+      if (event.target.classList.contains('remove-item')) {
+        let item = event.target
+        let id = item.dataset.id
+        removeItem(id)
+        cartContent.removeChild(item.parentElement.parentElement)
+      }
+    })
+  }
+
+  function clearCart() {
+    let cartItems = cart.map(item => item.ServiceId)
+    cartItems.forEach(id => removeItem(id))
+    while (cartContent.children.length > 0) {
+      cartContent.removeChild(cartContent.children[0])
+    }
+    hideCart()
+  }
+
+  function removeItem(id) {
+    cart = cart.filter(service => service.ServiceId !== id)
+    setCartValues(cart)
+    Storage.saveCart(cart)
+  }
+
+
+  document.addEventListener('DOMContentLoaded', (event) => {
+    const services = new Services()
+    setUpApp()
+    cartLogic()
+    services.getServices().then(services => {
+      // console.log(services)
+      services = services.map(a => {
+        const { name: category } = a.Category
+
+        const { name, description, fee } = a
+
+        const { ServiceId, agreedFee } = a.Contract_Service
+
+
+        return { ServiceId, category, name, description, fee, agreedFee }
+
+
+
+
+
+
+        // a.dataValues.Services.map(b=>{
+        // console.log(b)
+        //     console.log(b.name)
+        //     console.log(b.fee)
+        //     console.log(b.description)
+        //     console.log(b.Contract_Service.agreedFee)
+        // })
+      })
+
+      //console.log(services)
+      Storage.saveServices(services)
+    }
+    )
+    //*/*
+
+  });
+
+</script>

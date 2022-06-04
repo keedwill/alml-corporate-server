@@ -1,0 +1,50 @@
+<div class="container mt-4">
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Proforma ID</th>
+
+                <th scope="col">Proforma Status</th>
+                <th scope="col">Proforma Description</th>
+                <th scope="col">Service</th>
+                <th scope="col">Amount</th>
+                <th scope="col">No of Individuals</th>
+                <th scope="col">User</th>
+
+                <th scope="col">Total Amount</th>
+                <th scope="col">Created At</th>
+                <th scope="col">Updated At</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+
+
+            {{#each proformas }}
+
+            <tr>
+                <th scope="row">{{this.dataValues.id}}</th>
+                <td>{{this.dataValues.status}}</td>
+                <td>{{this.dataValues.description}}</td>
+                <td>{{this.dataValues.service}}</td>
+                <td>{{this.dataValues.amount}}</td>
+                <td>{{this.dataValues.number_of_individuals}}</td>
+                <td>{{this.dataValues.user.dataValues.name}}</td>
+                <td>{{this.dataValues.total_amount}}</td>
+                <td>{{ formatDate this.dataValues.createdAt 'MMMM Do YYYY, h:mm:ss a'}}</td>
+                <td>{{ formatDate this.dataValues.updatedAt 'MMMM Do YYYY, h:mm:ss a'}}</td>
+                <td><a href="/admin/company/edit/{{this.dataValues.id}}" class="btn btn-warning">
+                <span><i class="fas fa-edit"></i></span>
+                Edit Proforma</a></td>
+            </tr>
+            {{/each}}
+
+
+
+
+        </tbody>
+    </table>
+</div>

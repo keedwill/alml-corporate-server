@@ -1,0 +1,74 @@
+<div class="container">
+    <div class=".col-xs-4 .col-md-offset-2">
+        <div class="panel panel-default panel-info Profile">
+            <div class=""> Update A Company </div>
+            
+            <div class="panel-body">
+                        {{> messages}}
+                <div class="form-horizontal">
+                    <form method="POST" action="/admin/companys/edit/{{id}}">
+                        <div class="form-group mb-3">
+                            <label class="col-sm-2 control-label">Company Name</label>
+                            <div class="col-sm-4">
+                                <input class="form-control" value="{{name}}" type="text" name="name" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="col-sm-2 control-label">Company Email</label>
+                            <div class="col-sm-4">
+                                <input class="form-control" value="{{email}}" type="text" name="email" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="col-sm-2 control-label">Company Phone</label>
+                            <div class="col-sm-4">
+                                <input class="form-control" value="{{phone}}" type="text" name="phone" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="col-sm-2 control-label">Company Address</label>
+                            <div class="col-sm-4">
+                                <input class="form-control" value="{{address}}" type="text" name="address" placeholder="">
+                            </div>
+                        </div>
+                         <label class="col-sm-2 control-label">Company Status</label>
+
+                        <div class="col-sm-4">
+                            <select class="form-select mb-3" name="status" aria-label="Default select example">
+                                <option selected>{{status}}</option>
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+
+                            </select>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="col-sm-2 control-label">Password</label>
+                            <div class="col-sm-4">
+                                <input class="form-control" type="password" name="password" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="col-sm-2 control-label">Confirm Password</label>
+                            <div class="col-sm-4">
+                                <input class="form-control" type="password" name="password2" placeholder="">
+                            </div>
+                        </div>
+
+                        
+                        
+                        
+
+                        <div class="form-group mb-3">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button class="btn btn-success">Update</button>
+                            </div>
+                        </div>
+                    </form>
+                </div> <!-- end form-horizontal -->
+            </div> <!-- end panel-body -->
+
+        </div> <!-- end panel -->
+
+
+    </div> <!-- end size -->
+</div> <!-- end container-fluid -->

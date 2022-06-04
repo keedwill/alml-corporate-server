@@ -1,0 +1,31 @@
+<div class="admin-register-div">
+    
+<form action="/admin/register" method="POST" class="admin-register-form">
+    {{> messages}}
+  <div class="mb-3">
+  <span><i class="fas fa-envelope"></i></span>
+    <label for="exampleInputEmail1" class="form-label">Email address</label>
+    <input type="email" name="email" class="form-control"  id="exampleInputEmail1" aria-describedby="emailHelp">
+  </div>
+  <div class="mb-3">
+  <span><i class="fas fa-key"></i></span>
+  
+    <label for="exampleInputPassword1" class="form-label">Password</label>
+    <input type="password" name="password"  class="form-control" id="exampleInputPassword1">
+  </div>
+  <div class="mb-3">
+  <span><i class="fas fa-key"></i></span>
+  
+    <label for="exampleInputPassword1" class="form-label"> Confirm Password</label>
+    <input type="password" name="password2"  class="form-control" id="exampleInputPassword1">
+  </div>
+  {{!-- <div class="mb-3 form-check">
+    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+  </div> --}}
+  <button  type="submit" class="btn btn-warning">
+   <span><i class="fas fa-sign-in-alt"></i></span>
+   
+  Register</button>
+</form>
+</div>

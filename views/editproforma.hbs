@@ -1,0 +1,74 @@
+<div class="container">
+    <div class=".col-xs-4 .col-md-offset-2">
+        <div class="panel panel-default panel-info Profile">
+            <div class=""> Update A Proforma </div>
+
+            <div class="panel-body">
+                {{> messages}}
+                <div class="form-horizontal">
+                    <form method="POST" action="/dashboard/proforma/edit/{{proforma.dataValues.id}}">
+                        <div class="form-group mb-3">
+                            <label class="col-sm-2 control-label">Service Name</label>
+                            <div class="col-sm-4">
+                                <input class="form-control"  readonly value="{{proforma.dataValues.service}}" type="text" name="service" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="col-sm-2 control-label">Service Amount</label>
+                            <div class="col-sm-4">
+                                <input class="form-control" id="amount" readonly value="{{proforma.dataValues.amount}}" type="text" name="amount" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="col-sm-2 control-label">No of Individuals </label>
+                            <div class="col-sm-4">
+                                <input class="form-control" id="pnumber"  oninput="door()" min="1" value="{{proforma.dataValues.number_of_individuals}}" type="number" name="number_of_individuals" placeholder="">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group mb-3">
+                            <label for="exampleFormControlTextarea1" class="form-label"> Description</label>
+                            <div class="col-sm-4">
+
+                                <textarea class="form-control" name="description" id="exampleFormControlTextarea1"
+                                    rows="3">{{proforma.dataValues.description}}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="col-sm-2 control-label">Total Amount</label>
+                            <div class="col-sm-4">
+                                <input class="form-control" id="tamount" value="{{proforma.dataValues.total_amount}}" type="text" name="total_amount">
+                            </div>
+                        </div>
+                        
+
+                        <div class="form-group mb-3">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button class="btn btn-success">Update</button>
+                            </div>
+                        </div>
+                    </form>
+                </div> <!-- end form-horizontal -->
+            </div> <!-- end panel-body -->
+
+        </div> <!-- end panel -->
+
+
+    </div> <!-- end size -->
+</div> <!-- end container-fluid -->
+
+<script>
+      function door() {
+
+
+    let num = document.getElementById('pnumber').value 
+    let pnum = parseInt(num)
+    
+     document.getElementById('tamount').value = pnum *10000
+
+
+  }
+   
+    
+</script>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+ <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css"
+    integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>
+        {{#if user}}
+        Hello {{user.name}} |{{title}}
+        {{else}}
+      {{title}}
+        {{/if}}
+    </title>
+</head>
+
+<body>
+    {{#if user}}
+   
+      <div class="container-fluid">
+        <div class="row body">
+          <div class="col-2 prince1">
+              <div class="">
+                <img  width="80%" src="https://i.imgur.com/KPfrAUY.png" alt="">
+              
+              </div>
+              <div>
+                  
+                  <nav class="nav flex-column">
+                      <a class="nav-link {{#if (eq title 'Dashboard')}}active{{/if}}" aria-current="page" href="/dashboard"><img   src="/svg/dashboard.svg" alt=""> Dashboard</a>
+                      <a class="nav-link" href="/dashboard/proforma"> <img src="/svg/proforma.svg" alt=""> Proforma</a>
+                      <a class="nav-link" href="/dashboard/contract"> <img src="/svg/contract.svg" alt=""> Contract</a>
+                      <a class="nav-link" href="/logout" tabindex="-1" aria-disabled="true"> <img src="/svg/logout.svg" alt="">Logout</a>
+                    </nav>
+              </div>
+              <div>
+                <nav class="nav flex-column"> 
+                    <a class="nav-link " aria-current="page" href="/help">  Help</a>
+                    <a class="nav-link" href="/help"> <i class="far fa-comments"></i>  Support</a>
+                   
+                  </nav>
+              </div>
+          </div>
+          
+          
+          <div class="col prince2">
+            <div class="row sea">
+                <div class="col">
+                   
+                        <div class="row height d-flex  align-items-center">
+                            <div class="col-md-8">
+                                <div class="search">  <input type="text" class="form-control" placeholder="Search for Proforma"> <i class="fa fa-search"></i></div>
+                            </div>
+                        </div>
+                    
+                </div>
+            </div>
+            <div class="row sea mt-4">
+                {{{body}}}
+            </div>
+            
+          </div>
+          
+        </div>
+      </div>
+
+    {{/if}}
+
+    
+     <script src="https://checkout.flutterwave.com/v3.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.8.1/html2pdf.bundle.min.js" integrity="sha512-vDKWohFHe2vkVWXHp3tKvIxxXg0pJxeid5eo+UjdjME3DBFBn2F8yWOE0XmiFcFbXxrEOR1JriWEno5Ckpn15A==" crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>

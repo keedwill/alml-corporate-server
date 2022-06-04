@@ -1,0 +1,96 @@
+
+  
+<div class="navbar navbar-light bg-light" >
+  <div class="container-fluid" >
+    <img  width="9%" src="https://i.imgur.com/Fpnlaz0.png" alt="">
+    <span style="margin-right: 79%; color:#543a5a; font-weight:bolder;">CORPORATE PORTAL</span>
+  </div>
+</div>
+<div class="home-div">
+    <div class="home-div1">
+        <div class="home-sub-div">
+            <h2 style="color: white;">Book, Pay & Manage Your ALML Services</h2>
+            <ul >
+                <li > <span><i class="fas fa-check-circle"></i></span> Oasis Lounge</li>
+                <li > <span><i class="fas fa-check-circle"></i></span> Airport Transfers</li>
+                <li > <span><i class="fas fa-check-circle"></i></span> Meet And Greet</li>
+                <li > <span><i class="fas fa-check-circle"></i></span> And More</li>
+               
+            </ul>
+        </div>
+        <footer class=" text-center text-white">
+  <!-- Grid container -->
+  <div class="container p-4 pb-0">
+    <!-- Section: Social media -->
+    <section class="mb-4">
+      <!-- Facebook -->
+      <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+        ><i class="fab fa-facebook-f"></i
+      ></a>
+
+      <!-- Twitter -->
+      <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+        ><i class="fab fa-twitter"></i
+      ></a>
+
+      <!-- Google -->
+      <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+        ><i class="fab fa-google"></i
+      ></a>
+
+      <!-- Instagram -->
+      <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+        ><i class="fab fa-instagram"></i
+      ></a>
+
+      <!-- Linkedin -->
+      <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+        ><i class="fab fa-linkedin-in"></i
+      ></a>
+
+      <!-- Github -->
+      <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+        ><i class="fab fa-github"></i
+      ></a>
+    </section>
+    <!-- Section: Social media -->
+  </div>
+  <!-- Grid container -->
+
+  <!-- Copyright -->
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+    © 2021 Copyright:
+    <a class="" href="https://almlgroup.com/">Almlgroup.com</a>
+  </div>
+  <!-- Copyright -->
+</footer>
+    </div>
+    <div class="home-div2">
+        <form action="/login" method="POST" class="home-div-form">
+            {{> messages}}
+            <div class="mb-3">
+                <span style="color: white;"><i class="far fa-envelope"></i></span>
+                <label style="color: white;" for="exampleInputEmail1" class="form-label">Email address</label>
+                <input type="email" name="email" class="form-control" id="exampleInputEmail1"
+                    aria-describedby="emailHelp" required>
+                {{!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> --}}
+            </div>
+            <div class="mb-3">
+                <span style="color: white;"><i class="fas fa-key"></i></span>
+                <label  style="color: white;" for="exampleInputPassword1" class="form-label">Password</label>
+                <input type="password" name="password" class="form-control" id="exampleInputPassword1" required>
+            </div>
+            {{!-- <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div> --}}
+            <div class="home-div-form-btn">
+
+                <button  type="submit" class="btn btn-success">
+                  <span style="color: white;"><i class="fas fa-sign-in-alt"></i></span>
+                  LOGIN</button>
+                <a type="submit" href="/register" class="btn btn-warning"> <span><i class="fas fa-keyboard"></i></span> SIGNUP</a>
+            </div>
+        </form>
+    </div>
+</div>

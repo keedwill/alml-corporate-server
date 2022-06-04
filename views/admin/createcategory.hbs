@@ -1,0 +1,36 @@
+<div class="container">
+    <div class=".col-xs-4 .col-md-offset-2">
+        <div class="panel panel-default panel-info Profile">
+            <h3 class="mt-4"> Create A Category </h3>
+            
+            <div class="panel-body">
+                        {{> messages}}
+                <div class="form-horizontal">
+                    <form method="POST" action="/admin/category/create">
+                        <div class="form-group mb-3">
+                    <span><i class="fas fa-filter"></i></span>
+                        
+                            <label class="col-sm-2 control-label">Category Name</label>
+                            <div class="col-sm-4">
+                                <input class="form-control" type="text" name="name" placeholder="">
+                            </div>
+                        </div>
+
+                      
+
+                        <div class="form-group mb-3">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button class="btn btn-success">
+                                <span><i class="fas fa-plus"></i></span>
+                                Create</button>
+                            </div>
+                        </div>
+                    </form>
+                </div> <!-- end form-horizontal -->
+            </div> <!-- end panel-body -->
+
+        </div> <!-- end panel -->
+
+
+    </div> <!-- end size -->
+</div> <!-- end container-fluid -->

@@ -1,0 +1,354 @@
+<div class="container">
+    <div class=".col-xs-4 .col-md-offset-2">
+        <div class="panel panel-default panel-info Profile">
+            <h3 class="mt-4"> Create A Contract </h3>
+            <div class="cart-btn">
+
+                <span>
+
+                    <i class="fas fa-cart-plus fa-2x"></i>
+                </span>
+                <div class="cart-items">0</div>
+            </div>
+            {{!-- <button type="button" class="btn btn-primary position-relative">
+                Cart
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+
+                    <span class="visually-hidden">unread messages</span>
+                </span>
+            </button> --}}
+            <div class="panel-body">
+                <div class="alert alert-success" hidden role="alert">
+                    A simple success alert—check it out!
+                </div>
+                {{> messages}}
+                <div class="form-horizontal">
+                    <hr>
+
+                    <div class="col-sm-4">
+                        <span><i class="fas fa-building"></i></span>
+                        <label for="exampleFormControlTextarea1" class="form-label">Select A User</label>
+
+                        <select required class="form-select mb-3" id="user" name="user"
+                            aria-label="Default select example">
+                            <option selected></option>
+                            {{#each users}}
+
+                            <option value="{{this.dataValues.id}}">{{this.dataValues.name}}</option>
+                            {{/each}}
+
+                        </select>
+                    </div>
+                    <div class="form-group mb-3">
+                        <i class="fas fa-clock"></i>
+                        <label for="exampleFormControlTextarea1" class="form-label">Contract Duration (Years)</label>
+                        <div class="col-sm-4">
+                            <input required class="form-control" id="duration" type="number" name="duration"
+                                placeholder="">
+                        </div>
+
+                    </div>
+                    <form method="POST" action="/admin/contract/create" id="addContract">
+
+                        <div class="col-sm-4">
+                            <span><i class="fas fa-file-signature"></i></span>
+                            <label for="exampleFormControlTextarea1" class="form-label">Select A Service</label>
+
+                            <select required class="form-select mb-3" id="service" name="service"
+                                aria-label="Default select example">
+                                <option selected></option>
+                                {{#each services}}
+
+                                <option value="{{this.dataValues.id}}">{{this.dataValues.name}}
+                                    {{this.dataValues.description}} ₦{{this.dataValues.fee}}</option>
+                                {{/each}}
+
+
+                            </select>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <span><i class="fas fa-money-bill"></i></span>
+                            <label class="col-sm-2 control-label">Agreed Fee</label>
+                            <div class="col-sm-4">
+                                <input required class="form-control" id="agreed_rate" type="number" name="agreed_rate"
+                                    placeholder="">
+                            </div>
+                        </div>
+
+
+
+
+
+                        <div class="form-group mb-3">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button class="btn btn-success">
+                                    <span><i class="fas fa-plus"></i></span>
+                                    Create</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="form-group mb-3">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button onclick="add()" id="add" class="btn btn-success">
+                                <span><i class="fas fa-plus"></i></span>
+                                Add to Cart</button>
+                        </div>
+                    </div>
+                </div> <!-- end form-horizontal -->
+            </div> <!-- end panel-body -->
+
+        </div> <!-- end panel -->
+
+
+    </div> <!-- end size -->
+
+    <div class="cart-overlay">
+        <div class="cart">
+            <span class="close-cart">
+                <i class="far fa-window-close "></i>
+            </span>
+            <h2>Services</h2>
+            <div class="cart-content">
+                {{!-- <div class="cart-item">
+
+
+                </div> --}}
+            </div>
+            <div class="cart-footer">
+                <h3>Total Amount: ₦ <span class="cart-total"></span></h3>
+                <button class="clear-cart banner-btn">Clear Cart</button>
+            </div>
+        </div>
+    </div>
+</div> <!-- end container-fluid -->
+
+<script>
+    const cartBtn = document.querySelector('.cart-btn')
+    const closeCartBtn = document.querySelector('.close-cart')
+    const clearCartBtn = document.querySelector('.clear-cart')
+    const cartDom = document.querySelector('.cart')
+    const cartOverlay = document.querySelector('.cart-overlay')
+    const cartContent = document.querySelector('.cart-content')
+    const cartItems = document.querySelector('.cart-items')
+    const cartTotal = document.querySelector('.cart-total')
+    const addToCartButtton = document.getElementById('add')
+
+    let cart = []
+
+    class Services {
+        async  getServices() {
+            try {
+
+                let services = await fetch('https://almlproforma.herokuapp.com/admin/api/services')
+                let data = await services.json()
+                return data
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    }
+
+    class Storage {
+        static saveServices(services) {
+            localStorage.setItem('services', JSON.stringify(services))
+        }
+
+        static getProduct(id) {
+            let services = JSON.parse(localStorage.getItem('services'))
+            return services.find(service => service.id === id)
+        }
+
+        static saveCart(cart) {
+            localStorage.setItem('cart', JSON.stringify(cart))
+        }
+
+        static getCart() {
+            return localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : []
+        }
+    }
+
+    const add = () => {
+        // let obj1 = new Object()
+        const serviceId = document.getElementById('service').value
+        const agreed_rate = document.getElementById('agreed_rate').value
+        let inCart = cart.find((item) => item.id === serviceId);
+        if (inCart) {
+            alert('This Service is Already in Cart')
+        } else {
+            let cartItem = { ...Storage.getProduct(serviceId), agreed_rate }
+            cart = [...cart, cartItem]
+            Storage.saveCart(cart)
+            setCartValues(cart)
+            addCartItem(cartItem)
+            showCart()
+        }
+        // obj1['serviceId'] = serviceId
+        //  obj1['agreed_rate'] = agreed_rate
+        // contract_services.push(obj1)
+        //  contract['contract_services'] = contract_services
+        // contract_services.push(obj1)
+
+        //contract.push(obj1)
+        //console.log(contract)
+
+    }
+
+
+
+    document.getElementById('addContract').addEventListener('submit', addContract)
+
+
+    let contract = {}
+    function addContract(e) {
+        e.preventDefault()
+
+        //console.log(contract)
+        //let obj1 = new Object()
+        const services = Storage.getCart()
+        const userId = document.getElementById('user').value
+        const duration = document.getElementById('duration').value
+        // obj1['userId'] = userId
+        //contract.unshift({userId:userId})
+        contract['userId'] = userId
+        contract['duration'] = duration
+        contract['contract_services'] = services
+        // console.log(contract)
+        fetch('https://almlproforma.herokuapp.com/admin/contract/create', {
+            method: 'POST',
+
+            headers: {
+                'Accept': " application/json, text/plain, */* ",
+                'Content-type': 'application/json'
+            },
+
+            body: JSON.stringify(contract)
+
+        }).then(res => {
+            // console.log(res)
+            if (res.status === 400) {
+
+                window.location.href = res.url
+                alert('Contract Alraedy Exist for specified User')
+                cart = []
+                Storage.saveCart(cart)
+                setCartValues(cart)
+            } else if (res.status === 200) {
+                window.location.href = res.url
+                alert('Contract Created')
+                cart = []
+                Storage.saveCart(cart)
+                setCartValues(cart)
+            }
+        })
+        //.then(data=>data) .catch(error => (console.log(error)));
+    }
+
+
+    function setCartValues(cart) {
+        let tempTotal = 0
+        cart.map(services => {
+
+            tempTotal += parseInt(services.agreed_rate)
+        })
+
+
+        cartTotal.innerText = tempTotal
+        cartItems.innerText = cart.length
+
+    }
+
+
+    function addCartItem(service) {
+        const div = document.createElement('div')
+        div.classList.add('cart-item')
+        div.innerHTML = `
+         <div>
+                        <h5>Service</h5>
+                        <h6>Service Fee</h6>
+                        <h6>Agreed Fee</h6>
+                        <p></p>
+                    </div>
+
+                    <div>
+                        <h5>${service.name}</h5>
+                        <h6>₦ ${service.fee}</h6>
+                        <h6>₦ ${service.agreed_rate}</h6>
+                        <span class="remove-item" data-id=${service.id}>remove</span>
+                    </div>
+        
+        `
+        cartContent.appendChild(div)
+
+    }
+
+    function showCart() {
+        cartOverlay.classList.add('transparentBcg')
+        cartDom.classList.add('showCart')
+    }
+
+    function setUpApp() {
+        cart = Storage.getCart()
+        setCartValues(cart)
+        populateCart(cart)
+        cartBtn.addEventListener('click', () => {
+            showCart()
+        })
+        closeCartBtn.addEventListener('click', () => {
+            hideCart()
+        })
+    }
+
+    function populateCart(cart) {
+        cart.forEach(service => addCartItem(service))
+    }
+    function hideCart() {
+        cartOverlay.classList.remove('transparentBcg');
+        cartDom.classList.remove('showCart');
+    }
+
+    function cartLogic() {
+        clearCartBtn.addEventListener('click', () => {
+            clearCart()
+        })
+
+        cartContent.addEventListener('click', (event) => {
+            if (event.target.classList.contains('remove-item')) {
+                let item = event.target
+                let id = item.dataset.id
+                removeItem(id)
+                cartContent.removeChild(item.parentElement.parentElement)
+            }
+        })
+    }
+
+    function clearCart() {
+        let cartItems = cart.map(item => item.id)
+        cartItems.forEach(id => removeItem(id))
+        while (cartContent.children.length > 0) {
+            cartContent.removeChild(cartContent.children[0])
+        }
+        hideCart()
+    }
+
+    function removeItem(id) {
+        cart = cart.filter(service => service.id !== id)
+        setCartValues(cart)
+        Storage.saveCart(cart)
+    }
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const services = new Services()
+        setUpApp()
+        cartLogic()
+        services.getServices().then(services => {
+
+
+            Storage.saveServices(services)
+        }
+        )
+        //*/*
+
+    });
+
+</script>

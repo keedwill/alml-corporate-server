@@ -1,0 +1,46 @@
+<div class="container mt-4">
+    
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Company ID</th>
+      <th scope="col">Company Name</th>
+      <th scope="col">Company Address</th>
+      <th scope="col">Company Status</th>
+      <th scope="col">Company  role</th>
+      <th scope="col">Company Email</th>
+      <th scope="col">Company Phone</th>
+      <th scope="col">Created At</th>
+      <th scope="col">Updated At</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+     
+       
+       
+        {{#each companys }}
+            
+    <tr>
+      <th scope="row">{{this.dataValues.id}}</th>
+      <td>{{this.dataValues.name}}</td>
+      <td>{{this.dataValues.address}}</td>
+      <td>{{this.dataValues.status}}</td>
+      <td>{{this.dataValues.role}}</td>
+      <td>{{this.dataValues.email}}</td>
+      <td>{{this.dataValues.phone}}</td>
+      <td>{{ formatDate this.dataValues.createdAt 'MMMM Do YYYY, h:mm:ss a'}}</td>
+      <td>{{ formatDate this.dataValues.updatedAt 'MMMM Do YYYY, h:mm:ss a'}}</td>
+      <td><a href="/admin/company/edit/{{this.dataValues.id}}" class="btn btn-warning">
+      <span><i class="fas fa-edit"></i></span>
+      Edit Company</a></td>
+    </tr>
+        {{/each}}   
+      
+         
+     
+   
+  </tbody>
+</table>
+</div>

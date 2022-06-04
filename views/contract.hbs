@@ -1,0 +1,83 @@
+<div class="container">
+    {{#each result}}
+
+    <div class="contract">
+        <div class="contract_user">
+            <div class="contract_user_user1">
+
+                <h2>ALML GROUP</h2>
+                <address>No 63 Adekunle Fajuyi Gra, Ikeja.</address>
+                <p>09084999191</p>
+                <p>info@almlgroup.com</p>
+            </div>
+            <div class="contract_user_user2">
+
+                <h2>{{this.dataValues.User.dataValues.name}}</h2>
+                <address>{{this.dataValues.User.dataValues.address}}</address>
+                <p>{{this.dataValues.User.dataValues.phone}}</p>
+                <p>{{this.dataValues.User.dataValues.email}}</p>
+            </div>
+        </div>
+        <h2 style="text-align: center;">Contract Agreement</h2>
+        <table class="table" id="table">
+            <thead>
+                <tr>
+
+                    <th scope="col">Service</th>
+                    <th scope="col">Service Fee</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Agreed Fee </th>
+
+
+
+                </tr>
+            </thead>
+            <tbody>
+
+
+
+                {{#each this.dataValues.Services }}
+
+                <tr>
+                    <th scope="row">{{this.dataValues.name}}</th>
+                    <td>{{this.dataValues.fee}}</td>
+                    <td>{{this.dataValues.description}}</td>
+                    <td>{{this.dataValues.Contract_Service.dataValues.agreedFee}}</td>
+
+
+
+                </tr>
+                {{/each}}
+
+
+
+
+            </tbody>
+        </table>
+        <p>Date Created:  {{ formatDate this.dataValues.createdAt 'MMMM Do YYYY, h:mm:ss a'}}<br>
+   Date Updated: {{ formatDate this.dataValues.updatedAt 'MMMM Do YYYY, h:mm:ss a'}}<br></p>
+    </div>
+    {{/each}}
+
+    {{!-- {{#each result}}
+    {{this.dataValues.id}}<br>
+    {{this.dataValues.status}}<br>
+    {{this.dataValues.UserId}}<br>
+    {{this.dataValues.createdAt}}<br>
+    {{this.dataValues.updatedAt}}<br>
+    {{#each this.dataValues.Services}}
+        {{this.dataValues.name}}<br>
+        {{this.dataValues.fee}}<br>
+        {{this.dataValues.description}}<br>
+        {{this.dataValues.Contract_Service.dataValues.agreedFee}}<br>
+        
+    {{/each}}
+    {{this.dataValues.User.dataValues.name}}
+    {{this.dataValues.User.dataValues.email}}
+    {{this.dataValues.User.dataValues.address}}
+    {{this.dataValues.User.dataValues.phone}}
+   
+{{/each}} --}}
+
+
+</div>

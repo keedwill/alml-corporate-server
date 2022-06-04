@@ -1,0 +1,64 @@
+<div class="container">
+
+  {{> messages}}
+  <table class="table" id="table">
+    <thead>
+      <tr>
+        <th scope="col">Proforma ID</th>
+        <th scope="col">Status</th>
+
+        <th scope="col">Total Amount</th>
+        {{!-- <th scope="col">Service Name</th>
+        <th scope="col">Service Fee</th>
+        <th scope="col">Description</th>
+        <th scope="col">Agreed Fee</th> --}}
+
+        <th scope="col">Created At</th>
+        <th scope="col">Updated At</th>
+
+      </tr>
+    </thead>
+    <tbody>
+
+
+
+      {{#each result }}
+
+      <tr>
+        <td>{{this.dataValues.id}}</td>
+
+        <td>{{this.dataValues.status}}</td>
+        <td>₦{{this.dataValues.totalAmount}}</td>
+
+        {{!-- {{#each this.dataValues.Services }} --}}
+     
+
+        {{!-- <td>{{this.dataValues.name}}</td> --}}
+        {{!-- <td>{{this.dataValues.fee}}</td> --}}
+        {{!-- <td>{{this.dataValues.description}}</td> --}}
+        {{!-- <td>{{this.dataValues.Proforma_Service.dataValues.agreedFee}}</td> --}}
+      {{!-- {{/each}} --}}
+
+      <td>{{ formatDate this.dataValues.createdAt 'MMMM Do YYYY, h:mm:ss a'}}</td>
+      <td>{{ formatDate this.dataValues.updatedAt 'MMMM Do YYYY, h:mm:ss a'}}</td>
+      <td><a href="/dashboard/proforma/delete/{{this.dataValues.id}}" class="btn btn-danger"><span><i
+              class="far fa-trash-alt"></i></span> Delete Proforma</a></td>
+      <td><a href="/dashboard/proforma/{{this.dataValues.id}}" class="btn btn-warning"><span><i
+              class="far fa-eye"></i></span> View Proforma</a></td>
+      {{!-- <td><a onclick="pdf()"  class="btn btn-success">Download Proforma</a></td> --}}
+      </tr>
+      {{/each}}
+
+
+
+
+    </tbody>
+  </table>
+</div>
+<script>
+  function pdf() {
+    console.log('worked')
+    var element = document.getElementById('table');
+    html2pdf(element);
+  }
+</script>
